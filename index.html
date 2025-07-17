@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tech Bingo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 3rem;
+      color: #00ffe7;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px #000;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 100px);
+      gap: 20px;
+      transition: opacity 0.5s ease;
+      margin-bottom: 2rem;
+    }
+
+    .box {
+      background-color: #1f1f1f;
+      border: 2px solid #00ffe7;
+      border-radius: 12px;
+      padding: 25px;
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      text-align: center;
+    }
+
+    .box:hover {
+      transform: scale(1.1);
+      background-color: #2a2a2a;
+    }
+
+    .output {
+      background-color: #1f1f1f;
+      padding: 2rem;
+      border-radius: 16px;
+      font-size: 1.3rem;
+      line-height: 1.6;
+      color: #00ffe7;
+      max-width: 700px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      background-color: #6a5acd;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: none;
+      transition: background 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #483d8b;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(4, 70px);
+        gap: 15px;
+      }
+
+      .box {
+        font-size: 1.2rem;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Tech Bingo 🎯</h1>
+  <div class="grid" id="grid"></div>
+  <div class="output" id="output">Click a number to see your challenge!</div>
+  <button class="back-btn" id="backBtn" onclick="showGrid()">🔙 Back</button>
+
+  <script>
+    const grid = document.getElementById("grid");
+    const output = document.getElementById("output");
+    const backBtn = document.getElementById("backBtn");
+
+    const messages = [
+      "I change my output only on the rising or falling edge of the clock. I store a bit and help build memory. Who am I?",
+      "I evaluate logic expressions using grouping of adjacent 1s. I help simplify Boolean functions efficiently.",
+      "I allow data to pass through only when the enable signal is active. I’m often used to control data flow in circuits.",
+      "I define how well an op-amp rejects common signals on both inputs — the higher I am, the better.",
+      "I give an output voltage proportional to the negative of the input voltage. My gain depends only on the resistor ratio.",
+      "I allow a complex network to be replaced with a single voltage source and series resistance. What theorem am I?",
+      "I’m the frequency at which the reactance of an inductor equals that of a capacitor.",
+      "I oppose sudden voltage changes, store energy in an electric field, and my current leads my voltage.",
+      "I send data byte-by-byte asynchronously using TX and RX — no clock line needed.",
+      "I sit between the CPU and main memory, storing frequently accessed data to speed things up.",
+      "I convert time-domain signals into the frequency domain using sinusoids — continuous and infinite. What transform am I?",
+      "I’m the frequency range a signal occupies — higher for video, lower for audio.",
+      "I turn a continuous signal into a sequence of binary values for digital processing.",
+      "I’m a simple circuit made of a diode and capacitor that extracts the outline of an AM waveform.",
+      "I define how an ideal op-amp behaves — infinite gain, zero offset, perfect conditions.",
+      "I contain status bits that reflect the result of arithmetic and logic operations. I help in control flow.",
+      "When a jump or call instruction is executed, I get a new value to change the program flow.",
+      "I’m a type of non-volatile memory — erased and reprogrammed electrically. Found in USB drives.",
+      "I reduce your search space by half with every step, but only if sorted.",
+      "I divide, conquer, and sort. I pick a pivot and rearrange things around it.",
+      "I solve optimization problems by breaking them into sub-problems and remembering past answers.",
+      "I ensure that the smallest value ascends to the summit, maintaining order in a tree.",
+      "I connect nodes without cycles — one path between any two points. Add an edge, and I break.",
+      "I use time slots to send multiple signals on one line — efficient and orderly.",
+      "I’m used in sensors and control systems to adjust power delivery — duty cycles are key!"
+    ];
+
+    const icons = [
+      "🔌","📊","🛠️","🎛️","📐","🔋","🎚️","📡","📤","💾",
+      "📈","🎵","🧮","🎯","📘","⚙️","🧭","💡","🔍","⚡",
+      "🔗","🌲","📶","⏱️","⚒️"
+    ];
+
+    for (let i = 1; i <= 25; i++) {
+      const div = document.createElement("div");
+      div.className = "box";
+      div.innerHTML = `${icons[i - 1]}<br>${i}`;
+      div.addEventListener("click", () => {
+        grid.style.opacity = 0;
+        setTimeout(() => {
+          grid.style.display = "none";
+          output.textContent = messages[i - 1];
+          output.style.display = "block";
+          backBtn.style.display = "inline-block";
+        }, 400);
+      });
+      grid.appendChild(div);
+    }
+
+    function showGrid() {
+      output.style.display = "none";
+      backBtn.style.display = "none";
+      grid.style.display = "grid";
+      setTimeout(() => {
+        grid.style.opacity = 1;
+      }, 50);
+    }
+  </script>
+</body>
+</html>
